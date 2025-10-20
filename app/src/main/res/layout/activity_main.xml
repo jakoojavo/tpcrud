@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/txtDireccion"
+        android:hint="Dirección"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtPrecio"
+        android:hint="Precio"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtDescripcion"
+        android:hint="Descripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtLatitud"
+        android:hint="Latitud"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtLongitud"
+        android:hint="Longitud"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtID_zona"
+        android:hint="ID Zona"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtID_agente"
+        android:hint="ID Agente"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtID_tipoimueble"
+        android:hint="Tipo de inmueble"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtID_estadopropiedad"
+        android:hint="Estado de la propiedad"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtID_ambiente"
+        android:hint="Ambiente"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Switch
+        android:id="@+id/txtgarage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Posee Garage"
+        android:textSize="20sp" />
+    <Switch
+        android:id="@+id/txtbalcon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Posee Balcon"
+        android:textSize="20sp" />
+    <Switch
+        android:id="@+id/txtpatio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Posee Patio"
+        android:textSize="20sp" />
+    <Switch
+        android:id="@+id/txtacepta_mascota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Acepta Mascotas"
+        android:textSize="20sp" />
+    <EditText
+        android:id="@+id/txtID_Mascota"
+        android:hint="Tipo de Mascota"
+        android:inputType="numberDecimal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btnAgregar"
+        android:text="Agregar Propiedad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnVerLista"
+        android:text="Ver Propiedades"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
