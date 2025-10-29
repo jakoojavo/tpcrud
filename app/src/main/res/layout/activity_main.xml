@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout
     android:orientation="vertical"
     android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <EditText
-        android:id="@+id/txtDireccion"
-        android:hint="Dirección"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    android:id="@+id/txtDireccion"
+    android:hint="Dirección"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/txtPrecio"
         android:hint="Precio"
@@ -24,13 +28,11 @@
     <EditText
         android:id="@+id/txtLatitud"
         android:hint="Latitud"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/txtLongitud"
         android:hint="Longitud"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
@@ -94,6 +96,7 @@
         android:inputType="numberDecimal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
     <Button
         android:id="@+id/btnAgregar"
         android:text="Agregar Propiedad"
@@ -107,3 +110,4 @@
         android:layout_height="wrap_content"/>
 
 </LinearLayout>
+</ScrollView>

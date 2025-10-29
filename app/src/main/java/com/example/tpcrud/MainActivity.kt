@@ -1,17 +1,22 @@
 package com.example.tpcrud
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Switch
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 
+/**
+ * MainActivity: La pantalla principal de la aplicación.
+ * Su responsabilidad es permitir al usuario introducir los datos de una nueva propiedad y guardarla.
+ */
 class MainActivity : AppCompatActivity() {
 
+    // --- Referencias a las vistas de la UI ---
+    // Se declaran como 'private lateinit var' porque se inicializarán en el método onCreate.
     private lateinit var txtDireccion: EditText
     private lateinit var txtPrecio: EditText
     private lateinit var txtDescripcion: EditText
@@ -30,26 +35,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnAgregar: Button
     private lateinit var btnVerLista: Button
 
-    private var listadepropiedades = ArrayList<Propiedades>()
-    private var idCounter = 1
-
-    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            @Suppress("DEPRECATION")
-            val updatedList = it.data?.getSerializableExtra("listaActualizada") as? ArrayList<Propiedades>
-            if (updatedList != null) {
-                listadepropiedades = updatedList
-                // Actualizar el idCounter para evitar duplicados
-                val maxId = updatedList.maxOfOrNull { p -> p.ID_propiedades } ?: 0
-                idCounter = maxId + 1
-            }
-        }
-    }
+    // Referencia al ViewModel.
+    private lateinit var propiedadesViewModel: PropiedadesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // --- Inicialización del ViewModel ---
+        // Se obtiene una instancia del PropiedadesViewModel. El sistema se encarga de decidir si
+        // crea una nueva instancia o proporciona una existente (en caso de rotación de pantalla, por ejemplo).
+        propiedadesViewModel = ViewModelProvider(this).get(PropiedadesViewModel::class.java)
+
+        // --- Inicialización de las Vistas ---
+        // Se enlazan las variables con sus respectivas vistas definidas en el archivo XML (activity_main.xml).
         txtDireccion = findViewById(R.id.txtDireccion)
         txtPrecio = findViewById(R.id.txtPrecio)
         txtDescripcion = findViewById(R.id.txtDescripcion)
@@ -68,18 +67,27 @@ class MainActivity : AppCompatActivity() {
         btnAgregar = findViewById(R.id.btnAgregar)
         btnVerLista = findViewById(R.id.btnVerLista)
 
+        // --- Configuración de los Listeners de los Botones ---
+
+        // Define la acción a realizar cuando se hace clic en el botón "Agregar Propiedad".
         btnAgregar.setOnClickListener {
             agregarPropiedad()
         }
 
+        // Define la acción para el botón "Ver Lista".
         btnVerLista.setOnClickListener {
+            // Crea un Intent para abrir la pantalla de la lista (ListaPropiedadesActivity).
             val intent = Intent(this, ListaPropiedadesActivity::class.java)
-            intent.putExtra("lista", listadepropiedades)
-            startForResult.launch(intent)
+            startActivity(intent)
         }
     }
 
+    /**
+     * Recoge los datos de los campos de texto y switches, los valida y crea un nuevo objeto Propiedades.
+     * Luego, utiliza el ViewModel para insertar la nueva propiedad en la base de datos.
+     */
     private fun agregarPropiedad() {
+        // Recoge los valores de todos los campos de entrada.
         val direccion = txtDireccion.text.toString()
         val precio = txtPrecio.text.toString().toDoubleOrNull()
         val descripcion = txtDescripcion.text.toString()
@@ -96,16 +104,31 @@ class MainActivity : AppCompatActivity() {
         val aceptaMascota = txtacepta_mascota.isChecked
         val idMascota = txtID_Mascota.text.toString().toIntOrNull()
 
+        // Validación simple: comprueba que los campos no estén vacíos.
         if (direccion.isNotEmpty() && precio != null && descripcion.isNotEmpty() && latitud.isNotEmpty() && longitud.isNotEmpty() && idZona != null && idAgente != null && idTipoImoble != null && idEstadoPropiedad != null && idAmbiente != null && idMascota != null) {
-            val propiedad = Propiedades(idCounter++, direccion, precio, descripcion, latitud, longitud, idZona, idAgente, idTipoImoble, idEstadoPropiedad, idAmbiente, garage, balcon, patio, aceptaMascota, idMascota)
-            listadepropiedades.add(propiedad)
+            // Si la validación es exitosa, crea un objeto Propiedades.
+            // El ID se establece en 0 porque Room se encargará de autogenerarlo.
+            val propiedad = Propiedades(0, direccion, precio, descripcion, latitud, longitud, idZona, idAgente, idTipoImoble, idEstadoPropiedad, idAmbiente, garage, balcon, patio, aceptaMascota, idMascota)
+            
+            // Llama al método insert del ViewModel para guardar la propiedad en la base de datos.
+            // Esta operación se ejecutará en un hilo de fondo gracias a las coroutinas.
+            propiedadesViewModel.insert(propiedad)
+            
+            // Limpia los campos para que el usuario pueda agregar otra propiedad.
             limpiarCampos()
-            Toast.makeText(this, "Propiedad agregada", Toast.LENGTH_SHORT).show()
+            
+            // Muestra un mensaje de confirmación al usuario.
+            Toast.makeText(this, "Propiedad agregada a la base de datos", Toast.LENGTH_SHORT).show()
         } else {
+            // Si la validación falla, muestra un mensaje de error.
             Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
         }
     }
 
+    /**
+     * Restablece todos los campos del formulario a su estado inicial.
+     * Se llama después de agregar una propiedad con éxito.
+     */
     private fun limpiarCampos() {
         txtDireccion.text.clear()
         txtPrecio.text.clear()
