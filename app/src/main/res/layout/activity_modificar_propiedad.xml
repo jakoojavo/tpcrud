@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<LinearLayout
     android:orientation="vertical"
     android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <EditText
         android:id="@+id/txtDireccion"
-        android:hint="Dirección"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="Dirección" />
+
     <EditText
         android:id="@+id/txtPrecio"
         android:hint="Precio"
@@ -70,6 +76,7 @@
         android:layout_height="wrap_content"
         android:text="Posee Garage"
         android:textSize="20sp" />
+
     <Switch
         android:id="@+id/txtbalcon"
         android:layout_width="match_parent"
@@ -100,3 +107,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>
+</ScrollView>
